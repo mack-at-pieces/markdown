@@ -45,6 +45,8 @@ class FencedCodeBlockSyntax extends BlockSyntax {
         language = escapeHtmlAttribute(language);
       }
       code.attributes['class'] = 'language-$language';
+    } else {
+      code.attributes['class'] = 'language-js';
     }
 
     return Element('pre', [code]);
@@ -72,9 +74,7 @@ class FencedCodeBlockSyntax extends BlockSyntax {
 
       // Closing code fences cannot have info strings:
       // https://spec.commonmark.org/0.30/#example-147
-      if (closingFence == null ||
-          !closingFence.marker.startsWith(openingMarker) ||
-          closingFence.hasInfo) {
+      if (closingFence == null || !closingFence.marker.startsWith(openingMarker) || closingFence.hasInfo) {
         childLines.add(
           Line(_removeIndentation(parser.current.content, indent)),
         );
@@ -87,9 +87,7 @@ class FencedCodeBlockSyntax extends BlockSyntax {
 
     // https://spec.commonmark.org/0.30/#example-127
     // https://spec.commonmark.org/0.30/#example-128
-    if (closingFence == null &&
-        childLines.isNotEmpty &&
-        childLines.last.isBlankLine) {
+    if (closingFence == null && childLines.isNotEmpty && childLines.last.isBlankLine) {
       childLines.removeLast();
     }
 
